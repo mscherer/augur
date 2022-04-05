@@ -28,6 +28,9 @@ jobs:
           for i in utils/docker/*; do
             export IMAGE=$LOGIN/augur_$(dirname $i)
             DOCKERFILE=${i}/Dockerfile
+            echo $DOCKERFILE
+            echo $i
+
             TAG=todo2
             docker build . -f $DOCKERFILE --tag $REGISTRY/$IMAGE:$TAG --tag $REGISTRY/$IMAGE:latest
             echo "$GITHUB_EVENT_NAME"
