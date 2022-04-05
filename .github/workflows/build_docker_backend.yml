@@ -27,6 +27,8 @@ jobs:
           env
           ps
           pwd
+          ls utils
+          ls utils/docker
           ls utils/docker/*
 
           for i in utils/docker/* ; do
