@@ -2,10 +2,10 @@ name: Build Docker images
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches: 
-      - master
+      - main
   release:
     types: 
       - published
@@ -22,12 +22,13 @@ jobs:
           # use that here since the variable are not present before start, so can't be in env
           export LOGIN=$GITHUB_REPOSITORY_OWNER
 
+          ls -R .
           echo $PASSWORD | docker login $REGISTRY -u $LOGIN --password-stdin
 
           for i in utils/docker/*; do
             export IMAGE=$LOGIN/augur_$(dirname $i)
             DOCKERFILE=${i}/Dockerfile
-            TAG=todo
+            TAG=todo2
             docker build . -f $DOCKERFILE --tag $REGISTRY/$IMAGE:$TAG --tag $REGISTRY/$IMAGE:latest
             echo "$GITHUB_EVENT_NAME"
             if $GITHUB_EVENT_NAME -eq 'release'; then
