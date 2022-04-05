@@ -24,19 +24,18 @@ jobs:
 
           echo $PASSWORD | docker login $REGISTRY -u $LOGIN --password-stdin
 
-
           for i in util/docker/* ; do
             export IMAGE=$LOGIN/augur_$(dirname $i)
             DOCKERFILE=${i}/Dockerfile
-            echo $DOCKERFILE
-            echo $i
+            TAG=$GITHUB_SHA
 
-            TAG=todo2
             docker build . -f $DOCKERFILE --tag $REGISTRY/$IMAGE:$TAG --tag $REGISTRY/$IMAGE:latest
-            echo "$GITHUB_EVENT_NAME"
-            if $GITHUB_EVENT_NAME -eq 'release'; then
+            if [ $GITHUB_EVENT_NAME -eq 'release' ]; then
+              TAG=$(basename $GITHUB_REF)
               docker push $REGISTRY/$IMAGE:latest
               docker push $REGISTRY/$IMAGE:$TAG
+            elif [ $GITHUB_EVENT_NAME -eq 'push' ]; then
+              docker push $REGISTRY/$IMAGE-devel:latest
             fi
           done
         env:
