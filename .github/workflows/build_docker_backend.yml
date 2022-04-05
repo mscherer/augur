@@ -22,8 +22,9 @@ jobs:
           # use that here since the variable are not present before start, so can't be in env
           export LOGIN=$GITHUB_REPOSITORY_OWNER
 
-          ls -R .
           echo $PASSWORD | docker login $REGISTRY -u $LOGIN --password-stdin
+
+          env
 
           for i in utils/docker/*; do
             export IMAGE=$LOGIN/augur_$(dirname $i)
