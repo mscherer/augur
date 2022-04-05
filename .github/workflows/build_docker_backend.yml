@@ -24,10 +24,8 @@ jobs:
 
           echo $PASSWORD | docker login $REGISTRY -u $LOGIN --password-stdin
 
-          pwd
-          ls 
 
-          for i in utils/docker/* ; do
+          for i in util/docker/* ; do
             export IMAGE=$LOGIN/augur_$(dirname $i)
             DOCKERFILE=${i}/Dockerfile
             echo $DOCKERFILE
