@@ -26,6 +26,8 @@ jobs:
 
           env
           ps
+          pwd
+          ls utils/docker/*
 
           for i in utils/docker/* ; do
             export IMAGE=$LOGIN/augur_$(dirname $i)
