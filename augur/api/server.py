@@ -324,8 +324,6 @@ def get_server_cache(config, cache_manager) -> Cache:
 logger = AugurLogger("server").get_logger()
 url = get_database_string()
 engine = create_database_engine(url, poolclass=StaticPool)
-db_session = DatabaseSession(logger, engine)
-augur_config = AugurConfig(logger, db_session)
 
 template_dir = str(Path(__file__).parent.parent / "templates")
 static_dir = str(Path(__file__).parent.parent / "static")
@@ -379,7 +377,6 @@ from .view.routes import *
 from .view.api import *
 
 cache_manager = create_cache_manager()
-server_cache = get_server_cache(augur_config, cache_manager)
-
-
-
+with DatabaseSession(logger, engine) as db_session: 
+    augur_config = AugurConfig(logger, db_session)
+    server_cache = get_server_cache(augur_config, cache_manager)
