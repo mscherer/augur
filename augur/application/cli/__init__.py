@@ -36,6 +36,7 @@ def test_db_connection(function_db_connection):
             engine.dispose()
             return ctx.invoke(function_db_connection, *args, **kwargs)
         except OperationalError as e:
+            print(f"Database connection error: {e}")
 
             augur_db_environment_var = os.getenv("AUGUR_DB")
 
